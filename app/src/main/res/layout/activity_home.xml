@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="match_parent"
+    tools:context=".Activities.HomeActivity">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_marginRight="21px"
+        android:layout_marginLeft="21px"
+        android:background="@color/branco"
+        android:layout_marginBottom="21px"
+        android:layout_marginTop="60px"
+        android:layout_height="match_parent">
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNav"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:itemBackground="@color/branco"
+        app:itemTextColor="@drawable/nav_item_color_state"
+        app:itemIconTint="@drawable/nav_item_color_state"
+        app:menu="@menu/bottom_navigation_main"
+        >
+
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+
+            android:gravity="center_horizontal"
+            android:text="@string/class_title"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/edtSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tvTitle"
+            android:drawableLeft="@drawable/ic_search"
+            android:ems="10"
+            android:hint="Hint for the Search"
+            android:inputType="textPersonName" />
+
+        <fragment
+            android:id="@+id/fragment_container"
+            android:name="br.com.livroandroid.trainingmockup.Fragments.CalendarFragment"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/edtSearch"
+            android:layout_above="@id/bottomNav"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+</RelativeLayout>

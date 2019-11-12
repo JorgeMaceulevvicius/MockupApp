@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "979527336537",
+    "firebase_url": "https://trainingmockup-63f86.firebaseio.com",
+    "project_id": "trainingmockup-63f86",
+    "storage_bucket": "trainingmockup-63f86.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:979527336537:android:908e56d524efe7fb62a748",
+        "android_client_info": {
+          "package_name": "br.com.livroandroid.trainingmockup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "979527336537-7inpspb1p0uo4irqvi9l3sprcsreiqk5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.livroandroid.trainingmockup",
+            "certificate_hash": "706eb002363a8db2e4493e30ddaedca19542ee75"
+          }
+        },
+        {
+          "client_id": "979527336537-c4ejqkeah1ei8q4909pklo1da55jtrlo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFiZ54rJd56IeZXy7Dx5c2HEfr5ZD2ssQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "979527336537-c4ejqkeah1ei8q4909pklo1da55jtrlo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

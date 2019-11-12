@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#000000</color>
+    <color name="colorPrimaryDark">#3F3D3D</color>
+    <color name="colorAccent">#FA13EC</color>
+    <color name="background">#222222</color>
+
+    <color name="fundoedt">#d9d9d9</color>
+    <color name="fundoebotao">#262af7</color>
+    <color name="hint">#7c877c</color>
+    <color name="black">#000000</color>
+    <color name="Verde">#1a9f4f</color>
+    <color name="branco">#ffffff</color>
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TrainingMockUp</string>
+    <string name="login_with_google">Login With Google</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="photo_fragment">Photo fragment</string>
+    <string name="calendar_fragment">Calendar Fragment</string>
+    <string name="class_title">Trainig Mockup</string>
+    <string name="user_location">User Location</string>
+</resources>
