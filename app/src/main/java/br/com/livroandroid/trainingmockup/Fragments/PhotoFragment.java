@@ -100,6 +100,8 @@ public class PhotoFragment extends Fragment {
                     Card card = postSnapshot.getValue(Card.class);
                     cards.add(card);
                     Log.i("INFO",card.getImageUrl() + card.getTemp());
+
+
                 }
 
                 adapter = new Adapter(cards,getActivity());
