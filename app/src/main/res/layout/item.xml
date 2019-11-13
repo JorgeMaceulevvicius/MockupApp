@@ -18,7 +18,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="250dp"
                 app:srcCompat="@drawable/ic_google_logo"
                 android:scaleType="centerCrop"
                 android:id="@+id/imageViewItem" />
@@ -31,24 +31,12 @@
                 android:layout_below="@id/imageViewItem"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="16dp"
-                android:text="Title"
+                android:drawableLeft="@drawable/ic_cloud_holo"
+                android:text=" Title"
                 android:textSize="16dp">
 
             </TextView>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/descriptionItem"
-                    android:layout_below="@id/tvCardViewTitle"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:maxLines="3"
-                    android:drawablePadding="10dp"
-                    android:ellipsize="end"
-                    android:text="Description">
 
-                </TextView>
 
         </RelativeLayout>
 

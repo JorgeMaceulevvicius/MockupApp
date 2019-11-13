@@ -41,6 +41,7 @@ public class NewUserActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         btn_regNew.setOnClickListener(new View.OnClickListener() {

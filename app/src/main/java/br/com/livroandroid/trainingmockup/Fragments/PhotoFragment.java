@@ -13,7 +13,9 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +33,11 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -61,11 +66,11 @@ public class PhotoFragment extends Fragment {
 
     private StorageTask mUploadTask;
 
-    FloatingActionButton floatingActionButton;
-    ViewPager viewPager;
-    Adapter adapter;
-    List<Model> models;
-    ProgressBar mProgresBar;
+    private FloatingActionButton floatingActionButton;
+    private ViewPager viewPager;
+    private Adapter adapter;
+    private List<Card> cards;
+    private ProgressBar mProgresBar;
 
     private static final int CAMERA_REQUEST_CODE = 1;
     private final int PICK_IMAGE_REQUEST = 1;
@@ -86,35 +91,47 @@ public class PhotoFragment extends Fragment {
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
-        models = new ArrayList<>();
-        models.add(new Model(R.drawable.ic_google_logo,"MAP","This is a image MAP"));
-        models.add(new Model(R.drawable.ic_photo,"PHOTO","This is a image PHOTO"));
-        models.add(new Model(R.drawable.ic_calendar,"CALENDAR","This is a image CALENDAR"));
-        models.add(new Model(R.drawable.ic_cloud,"CLOUD","This is a image CLOUD"));
+        cards = new ArrayList<>();
 
-        adapter = new Adapter(models,getActivity());
-
-        viewPager = view.findViewById(R.id.viewPager);
-        viewPager.setAdapter(adapter);
-        viewPager.setPadding(130,0,130,0);
-
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
+                    Card card = postSnapshot.getValue(Card.class);
+                    cards.add(card);
+                    Log.i("INFO",card.getImageUrl() + card.getTemp());
+                }
+
+                adapter = new Adapter(cards,getActivity());
+
+                viewPager = view.findViewById(R.id.viewPager);
+                viewPager.setAdapter(adapter);
+                viewPager.setPadding(130,0,130,0);
+
+                viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                    }
+
+                    @Override
+                    public void onPageSelected(int position) {
+
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int state) {
+
+                    }
+                });
 
             }
 
             @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
         });
-
 
 
 

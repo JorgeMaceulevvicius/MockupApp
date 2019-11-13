@@ -39,7 +39,6 @@ public class HomeActivity extends AppCompatActivity {
 
       search = (EditText) findViewById(R.id.edtSearch);
 
-
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNav);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new PhotoFragment()).commit();
