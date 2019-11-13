@@ -42,7 +42,6 @@ public class CalendarFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
     }
 
     @Override
@@ -95,14 +94,11 @@ public class CalendarFragment extends Fragment {
             try {
                 URL url = new URL(address[0]);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                //Establish connection with address
                 connection.connect();
 
-                //retrieve data from url
                 InputStream is = connection.getInputStream();
                 InputStreamReader isr = new InputStreamReader(is);
 
-                //Retrieve data and return it as String
                 int data = isr.read();
                 String content = "";
                 char ch;

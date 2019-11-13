@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class HomeActivity extends AppCompatActivity {
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNav);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                 new PhotoFragment()).commit();
-        search.setHint("Search the Photo");
+        search.setVisibility(View.INVISIBLE);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -53,19 +54,20 @@ public class HomeActivity extends AppCompatActivity {
                     case R.id.photo:
 
                         selectedFragment = new PhotoFragment();
-                        search.setHint("Search the Photo");
+                        search.setVisibility(View.INVISIBLE);
                         break;
 
                     case R.id.calendar:
 
                         selectedFragment = new CalendarFragment();
-                        search.setHint("Search the Date");
+                        search.setVisibility(View.INVISIBLE);
                         break;
 
                     case R.id.maps:
 
                         selectedFragment = new MapFragment();
-                        search.setHint("Search Location");
+                        search.setVisibility(View.VISIBLE);
+                        search.setHint("Search Supermarkets");
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
