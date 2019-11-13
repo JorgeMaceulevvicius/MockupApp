@@ -20,6 +20,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import androidx.fragment.app.FragmentActivity;
@@ -33,7 +34,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
-
+    private Marker currentLocationMarker;
     public MapFragment() {
         // Required empty public constructor
     }
@@ -68,15 +69,26 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-        googleMap.addMarker(new MarkerOptions()
-                        .position(new LatLng(-25.431672, -49.278474))
-                        .title("Near My House")
-                        .snippet("Location Test")
-        );
+        googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
+            @Override
+            public void onCameraMove() {
+                CameraPosition cameraPosition = googleMap.getCameraPosition();
+                if(cameraPosition.zoom > 13) {
+                    mGoogleMap.addMarker(new MarkerOptions()
+                            .position(new LatLng(-25.431672, -49.278474))
+                            .title("Near My House")
+                            .snippet("Location Test")
+                            .visible(true)
+                    );
+                }
+            }
+        });
+
 
         CameraPosition SouthAmerica = CameraPosition.builder().target(new LatLng(-25.431672, -49.278474)).zoom(3).bearing(0).build();
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(SouthAmerica));
     }
+
 
 }

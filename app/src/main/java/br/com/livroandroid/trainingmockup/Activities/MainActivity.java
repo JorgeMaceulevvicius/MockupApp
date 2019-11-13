@@ -1,10 +1,10 @@
 package br.com.livroandroid.trainingmockup.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import br.com.livroandroid.trainingmockup.Entities.User;
+import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,34 +12,28 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
     static final int GOOGLE_SING = 123;
-    FirebaseAuth mAuth;
-
-    Button btn_entrar, btn_login_google , btn_logout_google;
-
-    EditText edtLogin, edtSenha;
-
-    ProgressBar progressBar;
-
-    GoogleSignInClient mGoogleSingInClient;
+    private FirebaseAuth mAuth;
+    private Button btn_register,btn_singUp, btn_login_google , btn_logout_google;
+    private EditText edtEmail, edtPass;
+    private ProgressBar progressBar;
+    private GoogleSignInClient mGoogleSingInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +42,13 @@ public class MainActivity extends AppCompatActivity {
 
         btn_logout_google = findViewById(R.id.logOutGoogle);
         btn_login_google = findViewById(R.id.logInGoogle);
-        btn_entrar = findViewById(R.id.buttonEntrar);
+        btn_singUp = findViewById(R.id.btn_singUp);
+        btn_register = findViewById(R.id.btn_register);
+        edtEmail = findViewById(R.id.editTextEmail);
+        edtPass = findViewById(R.id.editTextPass);
         progressBar = findViewById(R.id.progressBarLogin);
 
-        mAuth = FirebaseAuth.getInstance();
+        mAuth = FirebaseConnection.getFirebaseAuth();
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions
                 .Builder()
@@ -65,17 +62,63 @@ public class MainActivity extends AppCompatActivity {
         btn_logout_google.setOnClickListener(v -> Logout());
 
         if(mAuth.getCurrentUser() != null){
+
             FirebaseUser user = mAuth.getCurrentUser();
-            updateUI(user);
+            goToHome();
 
         }
 
+        btn_register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(),NewUserActivity.class);
+                startActivity(intent);
+
+            }
+        });
+        btn_singUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                String email = edtEmail.getText().toString().trim();
+                String password = edtPass.getText().toString().trim();
+
+                if(email.equals("") || password.equals("")){
+                    Toast.makeText(getApplicationContext(),"Enter the correct data !",Toast.LENGTH_SHORT).show();
+                }else {
+
+                    progressBar.setVisibility(View.VISIBLE);
+                    mAuth.signInWithEmailAndPassword(email,password)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(getApplicationContext(),"Welcome !",Toast.LENGTH_SHORT).show();
+
+                                        goToHome();
+
+                                    }else {
+                                        Toast.makeText(getApplicationContext(),"wrong Email or Password",Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                }
+
+            }
+        });
     }
 
     void SingInGoogle(){
         progressBar.setVisibility(View.VISIBLE);
         Intent signIntent = mGoogleSingInClient.getSignInIntent();
         startActivityForResult(signIntent,GOOGLE_SING);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
     }
 
     @Override
@@ -110,10 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
                         FirebaseUser user = mAuth.getCurrentUser();
 
-                        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
-                        startActivity(intent);
-
-                        finish();
+                        goToHome();
 
                     }else{
                         progressBar.setVisibility(View.INVISIBLE);
@@ -126,23 +166,47 @@ public class MainActivity extends AppCompatActivity {
 
                 });
     }
+    private void goToHome(){
+
+        Intent intent = new Intent(MainActivity.this,HomeActivity.class);
+        startActivity(intent);
+
+            }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
+
             btn_login_google.setVisibility(View.INVISIBLE);
             btn_logout_google.setVisibility(View.VISIBLE);
-            btn_entrar.setVisibility(View.INVISIBLE);
+            btn_singUp.setVisibility(View.INVISIBLE);
+            btn_register.setVisibility(View.INVISIBLE);
+            edtEmail.setEnabled(false);
+            edtPass.setEnabled(false);
+
         }else {
             btn_logout_google.setVisibility(View.INVISIBLE);
             btn_login_google.setVisibility(View.VISIBLE);
-            btn_entrar.setVisibility(View.VISIBLE);
+            btn_singUp.setVisibility(View.VISIBLE);
+            btn_register.setVisibility(View.VISIBLE);
+            edtEmail.setEnabled(true);
+            edtPass.setEnabled(true);
 
         }
     }
     private void Logout() {
+        edtPass.setText("");
         FirebaseAuth.getInstance().signOut();
         mGoogleSingInClient.signOut().addOnCompleteListener(this,
                 task -> updateUI(null));
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(mAuth.getCurrentUser() != null) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            progressBar.setVisibility(View.INVISIBLE);
+            updateUI(user);
+        }
+    }
 }
