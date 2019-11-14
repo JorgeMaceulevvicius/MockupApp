@@ -1,9 +1,6 @@
 package br.com.livroandroid.trainingmockup.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +11,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -62,16 +57,11 @@ public class Adapter extends PagerAdapter{
         imageView = view.findViewById(R.id.imageViewItem);
         temperature = view.findViewById(R.id.tvCardViewTitle);
 
-
-
-
-
-
-
+        String urlImagem = "https://firebasestorage.googleapis.com/v0/b/trainingmockup-63f86.appspot.com/o/uploads%2F"+cards.get(position).getImageUrl()+"?alt=media&token=d47dc7a4-c827-4729-a9ef-77a412c0ccac";
         //imageView.setImageResource(cards.get(position).getImageUrl());
         temperature.setText(" " + cards.get(position).getTemp() + " °C");
         Picasso.with(context)
-                .load("https://firebasestorage.googleapis.com/v0/b/trainingmockup-63f86.appspot.com/o/uploads%2F1573532555301.jpg?alt=media&token=d47dc7a4-c827-4729-a9ef-77a412c0ccac")
+                .load(urlImagem)
                 .fit()
                 .centerCrop()
                 .into(imageView);

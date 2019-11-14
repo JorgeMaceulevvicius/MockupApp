@@ -43,10 +43,10 @@
             android:id="@+id/tvTemperatura"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="50px"
             android:layout_marginLeft="50px"
+            android:layout_marginRight="50px"
             android:drawableLeft="@drawable/ic_cloud"
-            android:text="22°C"
+            android:text=" --°C"
             android:textColor="@color/branco"
             android:textSize="18sp" />
     </LinearLayout>
@@ -56,6 +56,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/lienarLayout"
-        android:dateTextAppearance="@style/TextAppearance.AppCompat.Body2" />
+        android:dateTextAppearance="@style/TextAppearance.AppCompat.Small.Inverse" />
 
 </RelativeLayout>

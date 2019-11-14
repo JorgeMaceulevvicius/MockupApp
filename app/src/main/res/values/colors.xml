@@ -11,4 +11,8 @@
     <color name="black">#000000</color>
     <color name="Verde">#1a9f4f</color>
     <color name="branco">#ffffff</color>
+    <color name="white">#ffffff</color>
+    <color name="backgroud_light">#575555</color>
+    <color name="red">#B60C0C</color>
+
 </resources>

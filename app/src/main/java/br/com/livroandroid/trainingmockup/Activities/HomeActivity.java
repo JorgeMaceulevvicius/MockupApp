@@ -3,13 +3,22 @@ package br.com.livroandroid.trainingmockup.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,6 +31,8 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
+import java.util.Locale;
 
 import androidx.fragment.app.Fragment;
 import br.com.livroandroid.trainingmockup.Fragments.CalendarFragment;
@@ -31,13 +42,18 @@ import br.com.livroandroid.trainingmockup.R;
 
 public class HomeActivity extends AppCompatActivity {
 
-    EditText search;
+    private EditText search;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-      search = (EditText) findViewById(R.id.edtSearch);
+        LocationManager locationManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+
+        search = (EditText) findViewById(R.id.edtSearch);
+
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNav);
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import br.com.livroandroid.trainingmockup.Activities.HomeActivity;
+import br.com.livroandroid.trainingmockup.Activities.TakePhotoActivity;
 import br.com.livroandroid.trainingmockup.Adapters.Adapter;
 
 import android.webkit.MimeTypeMap;
@@ -59,21 +60,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class PhotoFragment extends Fragment {
 
-    private Uri mImageUri;
-
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabaseRef;
-
-    private StorageTask mUploadTask;
 
     private FloatingActionButton floatingActionButton;
     private ViewPager viewPager;
     private Adapter adapter;
     private List<Card> cards;
     private ProgressBar mProgresBar;
-
-    private static final int CAMERA_REQUEST_CODE = 1;
-    private final int PICK_IMAGE_REQUEST = 1;
+    private DatabaseReference mDatabaseRef;
 
 
     public PhotoFragment() {
@@ -85,10 +78,10 @@ public class PhotoFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_photo, container, false);
+
         floatingActionButton = (FloatingActionButton)view.findViewById(R.id.floatingActionButton);
         mProgresBar = (ProgressBar)view.findViewById(R.id.progressBar) ;
 
-        mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         cards = new ArrayList<>();
@@ -96,11 +89,13 @@ public class PhotoFragment extends Fragment {
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                cards = new ArrayList<>();
+
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     Card card = postSnapshot.getValue(Card.class);
                     cards.add(card);
                     Log.i("INFO",card.getImageUrl() + card.getTemp());
-
 
                 }
 
@@ -136,98 +131,16 @@ public class PhotoFragment extends Fragment {
         });
 
 
-
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               chooseImage();
+                Intent intent = new Intent(getActivity(), TakePhotoActivity.class);
+                startActivity(intent);
             }
 
         });
 
         return view;
-    }
-
-    private void chooseImage() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_IMAGE_REQUEST);
-
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
-                && data != null && data.getData() != null){
-
-            mImageUri = data.getData();
-
-            if(mUploadTask != null && mUploadTask.isInProgress()){
-
-                Toast.makeText(getActivity(),"Upload in Progress",Toast.LENGTH_SHORT).show();
-
-            }else {
-                uploadImage();
-            }
-
-        }
-    }
-
-    private String getFileExtension(Uri uri){
-        ContentResolver cR = getContext().getContentResolver();
-        MimeTypeMap mime = MimeTypeMap.getSingleton();
-        return mime.getExtensionFromMimeType(cR.getType(uri));
-    }
-
-    private void uploadImage(){
-        if(mImageUri != null) {
-
-            StorageReference fileReference = mStorageRef.child( System.currentTimeMillis()
-            +"." + getFileExtension(mImageUri));
-
-            mUploadTask = fileReference.putFile(mImageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mProgresBar.setProgress(0);
-                                }
-                            },500);
-
-                            Toast.makeText(getActivity(),"Upload Successful",Toast.LENGTH_SHORT).show();
-
-                            String temp = "23";
-
-                            Card card = new Card(temp.trim(),taskSnapshot.getStorage().getDownloadUrl().toString());
-                            String cardId = mDatabaseRef.push().getKey();
-                            mDatabaseRef.child(cardId).setValue(card);
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getActivity(),e.getMessage(),Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0* taskSnapshot.getBytesTransferred()/taskSnapshot.getTotalByteCount());
-                            mProgresBar.setProgress((int)progress);
-
-                        }
-                    });
-        }else {
-            Toast.makeText(getActivity(),"No File Selected",Toast.LENGTH_SHORT).show();
-        }
-
     }
 
 }
