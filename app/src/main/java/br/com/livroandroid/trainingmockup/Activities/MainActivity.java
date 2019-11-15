@@ -5,6 +5,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -148,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task ->{
                     if(task.isSuccessful()){
-                        progressBar.setVisibility(View.INVISIBLE);
+                       // progressBar.setVisibility(View.INVISIBLE);
                         Log.d("TAG","signin sucess");
 
                         FirebaseUser user = mAuth.getCurrentUser();
@@ -209,4 +212,5 @@ public class MainActivity extends AppCompatActivity {
             updateUI(user);
         }
     }
+
 }

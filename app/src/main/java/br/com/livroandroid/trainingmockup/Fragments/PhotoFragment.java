@@ -27,6 +27,7 @@ import br.com.livroandroid.trainingmockup.Adapters.Adapter;
 import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -67,6 +68,7 @@ public class PhotoFragment extends Fragment {
     private List<Card> cards;
     private ProgressBar mProgresBar;
     private DatabaseReference mDatabaseRef;
+    private TextView tvNoImages;
 
 
     public PhotoFragment() {
@@ -79,9 +81,9 @@ public class PhotoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view=  inflater.inflate(R.layout.fragment_photo, container, false);
 
-        floatingActionButton = (FloatingActionButton)view.findViewById(R.id.floatingActionButton);
-        mProgresBar = (ProgressBar)view.findViewById(R.id.progressBar) ;
-
+        floatingActionButton = view.findViewById(R.id.floatingActionButton);
+        mProgresBar = view.findViewById(R.id.progressBar) ;
+        tvNoImages = view.findViewById(R.id.tvNoImages);
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         cards = new ArrayList<>();
@@ -95,6 +97,8 @@ public class PhotoFragment extends Fragment {
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     Card card = postSnapshot.getValue(Card.class);
                     cards.add(card);
+                    tvNoImages.setVisibility(View.INVISIBLE);
+
                     Log.i("INFO",card.getImageUrl() + card.getTemp());
 
                 }

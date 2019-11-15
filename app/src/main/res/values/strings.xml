@@ -12,4 +12,9 @@
     <string name="calendar_fragment">Calendar Fragment</string>
     <string name="class_title">Trainig Mockup</string>
     <string name="user_location">User Location</string>
+
+    <string-array name="methods">
+        <item>Current Temperature</item>
+        <item>Insert Manually</item>
+    </string-array>
 </resources>

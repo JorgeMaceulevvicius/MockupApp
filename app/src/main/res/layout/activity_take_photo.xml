@@ -16,32 +16,35 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true">
 
+        <ImageButton
+            android:id="@+id/imageButtonClose"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="false"
+            android:cropToPadding="false"
+            app:srcCompat="@drawable/ic_close" />
+
         <ImageView
             android:id="@+id/imageView_add_temperature"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@drawable/ic_photo" />
+            app:srcCompat="@drawable/ic_photo" >
+
+
+    </ImageView>
 
     <Button
         android:id="@+id/btn_add_temperature"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_weight="1"
+        android:layout_weight="0.5"
         android:background="@color/branco"
         android:drawableStart="@drawable/ic_add_dark"
         android:text=" ADD TEMPERATURE" />
 
     </LinearLayout>
 
-<ProgressBar
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    android:id="@+id/progressBar_add">
-
-</ProgressBar>
 
 
 </RelativeLayout>
