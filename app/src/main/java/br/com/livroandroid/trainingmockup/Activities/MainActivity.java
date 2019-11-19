@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     static final int GOOGLE_SING = 123;
     private FirebaseAuth mAuth;
-    private Button btn_register,btn_singUp, btn_login_google , btn_logout_google;
+    private Button btn_register,btn_singUp, btn_login_google , btn_logout_google, btn_goHome;
     private EditText edtEmail, edtPass;
     private ProgressBar progressBar;
     private GoogleSignInClient mGoogleSingInClient;
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
         btn_login_google = findViewById(R.id.logInGoogle);
         btn_singUp = findViewById(R.id.btn_singUp);
         btn_register = findViewById(R.id.btn_register);
+        btn_goHome = findViewById(R.id.GoToHome);
         edtEmail = findViewById(R.id.editTextEmail);
         edtPass = findViewById(R.id.editTextPass);
         progressBar = findViewById(R.id.progressBarLogin);
@@ -110,6 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        btn_goHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goToHome();
+                progressBar.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     void SingInGoogle(){
@@ -135,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 if(account!= null) firebaseAuthWithGoogle(account);
 
+
             }catch (ApiException e){
                 e.printStackTrace();
 
@@ -151,8 +160,10 @@ public class MainActivity extends AppCompatActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task ->{
                     if(task.isSuccessful()){
-                       // progressBar.setVisibility(View.INVISIBLE);
-                        Log.d("TAG","signin sucess");
+
+                        Toast.makeText(getApplicationContext(),"Welcome !",Toast.LENGTH_SHORT).show();
+
+                        Log.d("TAG","singin sucess");
 
                         FirebaseUser user = mAuth.getCurrentUser();
 
@@ -160,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }else{
                         progressBar.setVisibility(View.INVISIBLE);
-                        Log.d("TAG","signin failure",task.getException());
+                        Log.d("TAG","singin failure",task.getException());
 
                         Toast.makeText(this,"SignIn Failed !",Toast.LENGTH_SHORT);
                         updateUI(null);
@@ -183,6 +194,7 @@ public class MainActivity extends AppCompatActivity {
             btn_logout_google.setVisibility(View.VISIBLE);
             btn_singUp.setVisibility(View.INVISIBLE);
             btn_register.setVisibility(View.INVISIBLE);
+            btn_goHome.setVisibility(View.VISIBLE);
             edtEmail.setEnabled(false);
             edtPass.setEnabled(false);
 
@@ -191,6 +203,7 @@ public class MainActivity extends AppCompatActivity {
             btn_login_google.setVisibility(View.VISIBLE);
             btn_singUp.setVisibility(View.VISIBLE);
             btn_register.setVisibility(View.VISIBLE);
+            btn_goHome.setVisibility(View.INVISIBLE);
             edtEmail.setEnabled(true);
             edtPass.setEnabled(true);
 

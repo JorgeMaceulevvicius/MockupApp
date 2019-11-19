@@ -49,8 +49,6 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        LocationManager locationManager = (LocationManager)
-                getSystemService(Context.LOCATION_SERVICE);
 
         search = (EditText) findViewById(R.id.edtSearch);
 
@@ -83,6 +81,7 @@ public class HomeActivity extends AppCompatActivity {
                         selectedFragment = new MapFragment();
                         search.setVisibility(View.VISIBLE);
                         search.setHint("Search Supermarkets");
+
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

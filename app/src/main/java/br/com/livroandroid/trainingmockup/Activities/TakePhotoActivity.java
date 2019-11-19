@@ -176,7 +176,6 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
             finish();
         }
 
-        Log.i("TEMPERATURAAA",""+position);
     }
 
     @Override
@@ -185,7 +184,7 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
     }
     private String getTemperature(String city){
 
-        String temperature = "";
+        String temperature = "--";
 
         Weather weather = new Weather();
 

@@ -34,6 +34,8 @@ import androidx.fragment.app.FragmentActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import br.com.livroandroid.trainingmockup.Entities.Card;
 import br.com.livroandroid.trainingmockup.Entities.Market;
 import br.com.livroandroid.trainingmockup.R;
@@ -48,6 +50,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     GoogleMap mGoogleMap;
     MapView mMapView;
     View mView;
+    private List<Market> markets;
 
     private Marker marker;
     public MapFragment() {
@@ -61,11 +64,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_map, container, false);
        mDatabase = FirebaseDatabase.getInstance().getReference().child("markets");
-//        Market market = new Market();
-//        market.setTitle("Pão de Açucar");
-//        market.setLatitude(-25.440792);
-//        market.setLongitude( -49.282326);
-//        mDatabase.child("Pão de Açucar").setValue(market);
 
         return mView;
     }
@@ -89,6 +87,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
+        markets = new ArrayList<>();
+
         googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
             public void onCameraMove() {
@@ -102,32 +102,21 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
                                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                                     Market m = postSnapshot.getValue(Market.class);
+                                    markets.add(m);
                                     LatLng location = new LatLng(m.getLatitude(),m.getLongitude());
-                                    mGoogleMap.addMarker(new MarkerOptions().position(location).title(m.getTitle())).setSnippet("TEste teste");
-                                    mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-                                        @Override
-                                        public void onInfoWindowClick(Marker marker) {
-                                            Toast.makeText(getContext(),"Clicked " +marker.getId() ,Toast.LENGTH_SHORT).show();
-
-//                                            Intent intent = new Intent(context ,PopulationCharts.class);
-//                                            String title = marker.getTitle();
-//                                            intent.putExtra("markertitle", title);
-//                                            startActivity(intent);
-                                        }
-                                    });
-
-
+                                    mGoogleMap.addMarker(new MarkerOptions().position(location).title(m.getTitle())).setSnippet(m.getAdress());
                                 }
+
+
                             }else {
                                 mGoogleMap.clear();
                             }
-
 
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                            mGoogleMap.clear();
                         }
                     });
 
@@ -135,6 +124,22 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
         });
 
+        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                // Toast.makeText(getContext(),"Clicked " + m.getTitle(),Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putString("Title",marker.getTitle());
+                MarketFragment mf = new MarketFragment();
+                mf.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container,mf);
+                fragmentTransaction.commit();
+
+
+            }
+        });
         CameraPosition SouthAmerica = CameraPosition.builder().target(new LatLng(-25.431672, -49.278474)).zoom(3).bearing(0).build();
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(SouthAmerica));

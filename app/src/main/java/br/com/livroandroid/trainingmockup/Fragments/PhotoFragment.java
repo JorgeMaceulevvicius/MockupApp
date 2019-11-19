@@ -79,16 +79,21 @@ public class PhotoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view=  inflater.inflate(R.layout.fragment_photo, container, false);
+        View view =  inflater.inflate(R.layout.fragment_photo, container, false);
 
         floatingActionButton = view.findViewById(R.id.floatingActionButton);
         mProgresBar = view.findViewById(R.id.progressBar) ;
         tvNoImages = view.findViewById(R.id.tvNoImages);
+
+        tvNoImages.setVisibility(View.INVISIBLE);
+
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         cards = new ArrayList<>();
 
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
+
+
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
@@ -97,7 +102,8 @@ public class PhotoFragment extends Fragment {
                 for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){
                     Card card = postSnapshot.getValue(Card.class);
                     cards.add(card);
-                    tvNoImages.setVisibility(View.INVISIBLE);
+                    mProgresBar.setVisibility(View.INVISIBLE);
+
 
                     Log.i("INFO",card.getImageUrl() + card.getTemp());
 
@@ -125,6 +131,8 @@ public class PhotoFragment extends Fragment {
 
                     }
                 });
+
+
 
             }
 

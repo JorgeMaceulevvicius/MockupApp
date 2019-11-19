@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar">
         <activity android:name=".Activities.TakePhotoActivity"
-            android:theme="@style/Theme.AppCompat.Transparent.NoActionBar"
             android:screenOrientation="portrait"
             ></activity>
         <activity

@@ -5,8 +5,9 @@ public class Market {
     private String title;
     private Double latitude;
     private Double longitude;
-    private String shortDesription;
-    private String longDesription;
+    private String UrlFirstImage;
+    private String UrlSecondImage;
+    private String adress;
 
 
     public String getTitle() {
@@ -33,19 +34,27 @@ public class Market {
         this.longitude = longitude;
     }
 
-    public String getShortDesription() {
-        return shortDesription;
+    public String getUrlFirstImage() {
+        return UrlFirstImage;
     }
 
-    public void setShortDesription(String shortDesription) {
-        this.shortDesription = shortDesription;
+    public void setUrlFirstImage(String urlFirstImage) {
+        UrlFirstImage = urlFirstImage;
     }
 
-    public String getLongDesription() {
-        return longDesription;
+    public String getUrlSecondImage() {
+        return UrlSecondImage;
     }
 
-    public void setLongDesription(String longDesription) {
-        this.longDesription = longDesription;
+    public void setUrlSecondImage(String urlSecondImage) {
+        UrlSecondImage = urlSecondImage;
+    }
+
+    public String getAdress() {
+        return adress;
+    }
+
+    public void setAdress(String adress) {
+        this.adress = adress;
     }
 }

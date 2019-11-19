@@ -125,15 +125,24 @@
     <Button
         android:id="@+id/logOutGoogle"
         android:visibility="invisible"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20px"
-        android:layout_marginRight="20px"
-        android:drawableStart="@drawable/ic_google_logo"
-        android:drawableLeft="@drawable/ic_google_logo"
+        android:layout_alignParentLeft="true"
         android:background="@drawable/round_bg"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="60dp"
-        android:text="Logout" />
+        android:text=" Logout " />
+    <Button
+        android:id="@+id/GoToHome"
+        android:visibility="invisible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/round_bg"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:text=" Go Home " />
 
 </RelativeLayout>
