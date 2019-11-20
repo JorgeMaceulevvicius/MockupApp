@@ -6,9 +6,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -38,10 +41,43 @@ public class MainActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private GoogleSignInClient mGoogleSingInClient;
 
+    private final int LOCATION_REQUEST = 0;
+    private static final String[] LOCATION_PERMS = {
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA
+
+    };
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+
+        switch (requestCode) {
+            case LOCATION_REQUEST: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
+
+                } else {
+                    Toast.makeText(this,"APP needs these permissions",Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
+                    }
+                }
+                return;
+            }
+
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
+        }
 
         btn_logout_google = findViewById(R.id.logOutGoogle);
         btn_login_google = findViewById(R.id.logInGoogle);
@@ -103,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
                                         goToHome();
 
                                     }else {
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(getApplicationContext(),"wrong Email or Password",Toast.LENGTH_SHORT).show();
                                     }
                                 }
@@ -225,5 +262,6 @@ public class MainActivity extends AppCompatActivity {
             updateUI(user);
         }
     }
+
 
 }

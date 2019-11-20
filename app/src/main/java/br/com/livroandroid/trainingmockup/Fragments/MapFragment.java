@@ -51,19 +51,33 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     MapView mMapView;
     View mView;
     private List<Market> markets;
+    private double latitude, longitude;
+    private String title, address;
+    CameraPosition startLocation;
 
-    private Marker marker;
     public MapFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if(getArguments() != null){
+            latitude = getArguments().getDouble("Latitude");
+            longitude = getArguments().getDouble("Longitude");
+            title = getArguments().getString("title");
+            address = getArguments().getString("address");
+
+           // Toast.makeText(getContext(),latitude+"  +  "+longitude,Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_map, container, false);
-       mDatabase = FirebaseDatabase.getInstance().getReference().child("markets");
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("markets");
 
         return mView;
     }
@@ -72,7 +86,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mMapView = (MapView)mView.findViewById(R.id.mapView);
+        mMapView = mView.findViewById(R.id.mapView);
         if(mMapView != null){
             mMapView.onCreate(null);
             mMapView.onResume();
@@ -82,10 +96,24 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        MapsInitializer.initialize(getContext());
-
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+
+        if(latitude != 0 && longitude != 0){
+
+            startLocation = CameraPosition.builder().target(new LatLng(latitude, longitude)).zoom(17).bearing(0).build();
+            googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(startLocation));
+            LatLng location = new LatLng(latitude,longitude);
+            mGoogleMap.addMarker(new MarkerOptions().position(location).title(title)).setSnippet(address);
+        }else {
+             startLocation = CameraPosition.builder().target(new LatLng(-25.431672, -49.278474)).zoom(3).bearing(0).build();
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(startLocation));
+
+        MapsInitializer.initialize(getContext());
+
+
 
         markets = new ArrayList<>();
 
@@ -140,9 +168,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
 
             }
         });
-        CameraPosition SouthAmerica = CameraPosition.builder().target(new LatLng(-25.431672, -49.278474)).zoom(3).bearing(0).build();
 
-        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(SouthAmerica));
+
     }
 
 

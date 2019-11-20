@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +11,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -67,6 +65,7 @@ public class NewUserActivity extends AppCompatActivity {
                                         startActivity(intent);
                                         finish();
                                     }else {
+                                        progressBar.setVisibility(View.INVISIBLE);
                                         Toast.makeText(NewUserActivity.this,"Error !",Toast.LENGTH_LONG).show();
                                     }
                                 }

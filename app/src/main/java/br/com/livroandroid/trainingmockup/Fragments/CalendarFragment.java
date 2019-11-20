@@ -34,8 +34,7 @@ import br.com.livroandroid.trainingmockup.R;
 
 public class CalendarFragment extends Fragment {
 
-    private String temp = "";
-    String city = "Curitiba";
+    private String city = null;
     private TextView tvTemp, tvTime, tvUserLocation;
 
     public CalendarFragment() {
@@ -45,7 +44,9 @@ public class CalendarFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        if(getArguments() != null){
+            city = getArguments().getString("cityLocation");
+        }
 
     }
 
@@ -99,37 +100,5 @@ public class CalendarFragment extends Fragment {
         return temperature;
     }
 
-//    @RequiresApi(api = Build.VERSION_CODES.M)
-//    private String cityLocation() {
-//
-//        String cityName = "";
-//
-//        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-//        if (getActivity().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED && getActivity()
-//                .checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
-//                != PackageManager.PERMISSION_GRANTED) {
-//        }
-//        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-//
-//        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-//        List<Address> addresses;
-//        try{
-//            addresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),10);
-//            if(addresses.size()>0){
-//                for (Address adr:addresses){
-//                    if (adr.getLocality() != null && adr.getLocality().length() > 0){
-//                        cityName = adr.getLocality();
-//                        break;
-//                    }
-//
-//                }
-//
-//            }
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
-//
-//    return cityName;
-//    }
+
 }

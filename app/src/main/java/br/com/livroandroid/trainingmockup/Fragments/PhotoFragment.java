@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.os.Handler;
@@ -69,10 +70,23 @@ public class PhotoFragment extends Fragment {
     private ProgressBar mProgresBar;
     private DatabaseReference mDatabaseRef;
     private TextView tvNoImages;
+    private String city ;
 
 
     public PhotoFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if(getArguments() != null){
+
+            city = getArguments().getString("cityLocation");
+
+        }
+
     }
 
     @Override
@@ -132,8 +146,6 @@ public class PhotoFragment extends Fragment {
                     }
                 });
 
-
-
             }
 
             @Override
@@ -146,7 +158,9 @@ public class PhotoFragment extends Fragment {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(getActivity(), TakePhotoActivity.class);
+                intent.putExtra("cityLocation",city);
                 startActivity(intent);
             }
 

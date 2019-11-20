@@ -51,14 +51,21 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
     private StorageTask mUploadTask;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
-    //private ProgressBar progresBar_add;
     private Bitmap image;
-    DialogFragment singgleChoiceDialog= new SigleChoiceDialog();
+    private String city;
+
+    DialogFragment singgleChoiceDialog = new SigleChoiceDialog();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_photo);
+
+        Bundle b = new Bundle();
+        b = getIntent().getExtras();
+
+        city = b.getString("cityLocation");
+
 
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
@@ -171,7 +178,7 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
             finish();
 
         }else{
-            String city = "Curitiba";
+           // String city = "Curitiba";
             uploadImage(getTemperature(city)); ///get Current Temp
             finish();
         }
@@ -182,6 +189,7 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
     public void onNegativeBuuttonClicked() {
         singgleChoiceDialog.setCancelable(true);
     }
+
     private String getTemperature(String city){
 
         String temperature = "--";
