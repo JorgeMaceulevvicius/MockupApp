@@ -2,14 +2,18 @@ package br.com.livroandroid.trainingmockup.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED ){
 
                 } else {
-                    Toast.makeText(this,"APP needs these permissions",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this,R.string.app_needs_pemisson,Toast.LENGTH_SHORT).show();
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
                     }
@@ -71,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkGPSisOnOrNot();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
@@ -101,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser() != null){
 
             FirebaseUser user = mAuth.getCurrentUser();
-            goToHome();
+           goToHome();
 
         }
 
@@ -122,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 String password = edtPass.getText().toString().trim();
 
                 if(email.equals("") || password.equals("")){
-                    Toast.makeText(getApplicationContext(),"Enter the correct data !",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.enter_correct_data,Toast.LENGTH_SHORT).show();
                 }else {
 
                     progressBar.setVisibility(View.VISIBLE);
@@ -131,13 +137,13 @@ public class MainActivity extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if(task.isSuccessful()){
-                                        Toast.makeText(getApplicationContext(),"Welcome !",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),R.string.welcome,Toast.LENGTH_SHORT).show();
 
                                         goToHome();
 
                                     }else {
                                         progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(getApplicationContext(),"wrong Email or Password",Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(getApplicationContext(),R.string.wrong_email_password,Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -169,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
         if(requestCode == GOOGLE_SING) {
             Task<GoogleSignInAccount> task = GoogleSignIn
                     .getSignedInAccountFromIntent(data);
@@ -195,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task ->{
                     if(task.isSuccessful()){
 
-                        Toast.makeText(getApplicationContext(),"Welcome !",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),R.string.welcome,Toast.LENGTH_SHORT).show();
 
                         Log.d("TAG","singin sucess");
 
@@ -207,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
                         Log.d("TAG","singin failure",task.getException());
 
-                        Toast.makeText(this,"SignIn Failed !",Toast.LENGTH_SHORT);
+                        Toast.makeText(this,R.string.signin_failed,Toast.LENGTH_SHORT);
                         updateUI(null);
 
                     }
@@ -253,11 +261,45 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if(mAuth.getCurrentUser() != null) {
             FirebaseUser user = mAuth.getCurrentUser();
             progressBar.setVisibility(View.INVISIBLE);
             updateUI(user);
         }
+
+    }
+
+    private void checkGPSisOnOrNot(){
+
+        LocationManager lm = (LocationManager)this.getSystemService(this.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        try {
+            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+
+        if(!gps_enabled ) {
+            // notify user
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setMessage(R.string.msg_enable_GPS);
+            dialog.setPositiveButton(R.string.open_location_settings, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    // TODO Auto-generated method stub
+                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                }
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    finish();
+                }
+            });
+            dialog.show();
+
+        }
+
     }
 
 }

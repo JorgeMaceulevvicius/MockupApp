@@ -27,7 +27,7 @@
             android:layout_marginTop="80dp"
             android:textColor="@color/fundoedt"
             android:gravity="center_horizontal"
-            android:text="LOGIN"
+            android:text="@string/login"
             android:textSize="36sp" />
 
         <EditText
@@ -42,7 +42,7 @@
             android:ems="10"
             android:fontFamily="sans-serif"
             android:foregroundGravity="clip_horizontal"
-            android:hint=" Enter your Email"
+            android:hint="@string/enter_your_email"
             android:inputType="textPersonName"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"
@@ -60,9 +60,8 @@
             android:drawableLeft="@drawable/ic_key"
             android:elevation="5dp"
             android:ems="10"
-
             android:fontFamily="sans-serif"
-            android:hint=" Enter your Password"
+            android:hint="@string/enter_your_password"
             android:inputType="textPassword"
             android:textColor="@color/black"
             android:textColorHint="@color/hint"
@@ -82,7 +81,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/background"
-                android:text="CREATE ACCOUNT"
+                android:text="@string/create_account"
                 android:textColor="#fff" />
 
             <Button
@@ -92,7 +91,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:background="@color/background"
-                android:text="SING UP"
+                android:text="@string/sing_up"
                 android:textColor="#fff" />
 
 

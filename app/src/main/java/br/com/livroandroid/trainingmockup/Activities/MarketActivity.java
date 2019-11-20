@@ -69,7 +69,7 @@ public class MarketActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getApplicationContext(),"not found !",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),R.string.not_found,Toast.LENGTH_SHORT).show();
             }
         });
     }

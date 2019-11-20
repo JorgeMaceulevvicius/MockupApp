@@ -60,7 +60,7 @@
             android:background="@drawable/shape"
 
             android:textColor="#fff"
-            android:text="Search" />
+            android:text="@string/search" />
 
         <fragment
             android:id="@+id/fragment_container"

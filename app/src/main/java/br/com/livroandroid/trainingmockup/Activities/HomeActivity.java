@@ -132,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
 
                         selectedFragment = new MapFragment();
                         search.setVisibility(View.VISIBLE);
-                        search.setHint("Search Supermarkets");
+                        search.setHint(R.string.hint_search);
                         btn_search.setVisibility(View.VISIBLE);
 
                         break;

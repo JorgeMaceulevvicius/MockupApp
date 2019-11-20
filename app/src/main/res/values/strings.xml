@@ -12,6 +12,30 @@
     <string name="calendar_fragment">Calendar Fragment</string>
     <string name="class_title">Training Mockup</string>
     <string name="user_location">User Location</string>
+    <string name="open_location_settings">Open Location Settings</string>
+    <string name="msg_enable_GPS">This application requires Active GPS service, please enable GPS of your device.</string>
+    <string name="app_needs_pemisson">APP needs these permissions</string>
+    <string name="enter_correct_data">Enter the correct data !</string>
+    <string name="welcome">Welcome !</string>
+    <string name="wrong_email_password">wrong Email or Password</string>
+    <string name="signin_failed">Signin Failed !</string>
+    <string name="hint_search">Search Supermarkets</string>
+    <string name="not_found">not found !</string>
+    <string name="user_registred">User Registred !</string>
+    <string name="error">Error !</string>
+    <string name="upload_sucessful">Upload Successful</string>
+    <string name="no_file_selected">No File Selected</string>
+    <string name="select_method_temperature">Select your method to capture the Temperature</string>
+    <string name="search">Search</string>
+    <string name="login">LOGIN</string>
+    <string name="enter_your_email">Enter your Email</string>
+    <string name="enter_your_password">Enter your Password</string>
+    <string name="create_account">CREATE ACCOUNT</string>
+    <string name="sing_up">SING UP</string>
+    <string name="new_user">NEW USER</string>
+    <string name="register">REGISTER</string>
+    <string name="back">BACK</string>
+    <string name="add_temperature">ADD TEMPERATURE</string>
 
     <string-array name="methods">
         <item>Current Temperature</item>

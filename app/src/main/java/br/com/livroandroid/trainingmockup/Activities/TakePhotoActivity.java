@@ -137,7 +137,7 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
                                 }
                             },500);
 
-                            Toast.makeText(TakePhotoActivity.this,"Upload Successful",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TakePhotoActivity.this,R.string.upload_sucessful,Toast.LENGTH_SHORT).show();
 
                            // String temp = "23";
 
@@ -162,7 +162,7 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
                         }
                     });
         }else {
-            Toast.makeText(TakePhotoActivity.this,"No File Selected",Toast.LENGTH_SHORT).show();
+            Toast.makeText(TakePhotoActivity.this,R.string.no_file_selected,Toast.LENGTH_SHORT).show();
         }
 
     }

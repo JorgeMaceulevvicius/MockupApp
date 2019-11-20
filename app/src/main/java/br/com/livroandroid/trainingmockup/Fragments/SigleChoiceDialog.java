@@ -44,7 +44,7 @@ public class SigleChoiceDialog extends DialogFragment {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Select your method to capture the Temperature");
+        builder.setTitle(R.string.select_method_temperature);
         final EditText editText = new EditText(getActivity());
         editText.setInputType(InputType.TYPE_CLASS_NUMBER);
         builder.setView(editText);

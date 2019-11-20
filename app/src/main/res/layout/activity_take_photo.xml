@@ -42,7 +42,7 @@
         android:layout_weight="0.5"
         android:background="@color/branco"
         android:drawableStart="@drawable/ic_add_dark"
-        android:text=" ADD TEMPERATURE" />
+        android:text="@string/add_temperature" />
 
     </LinearLayout>
 

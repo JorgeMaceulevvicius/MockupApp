@@ -50,7 +50,7 @@ public class NewUserActivity extends AppCompatActivity {
 
                 if(email.equals("") || password.equals("")){
 
-                    Toast.makeText(getApplicationContext(),"Enter the correct data !",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),R.string.enter_correct_data,Toast.LENGTH_SHORT).show();
 
                 }else {
 
@@ -60,13 +60,13 @@ public class NewUserActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 if(task.isSuccessful()){
-                                    Toast.makeText(NewUserActivity.this,"User Registred !",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NewUserActivity.this,R.string.user_registred,Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
                                     startActivity(intent);
                                     finish();
                                 }else {
                                     progressBar.setVisibility(View.INVISIBLE);
-                                    Toast.makeText(NewUserActivity.this,"Error !",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NewUserActivity.this,R.string.error,Toast.LENGTH_LONG).show();
                                 }
                             }
                         });
