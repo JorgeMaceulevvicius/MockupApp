@@ -1,15 +1,13 @@
-package br.com.livroandroid.trainingmockup.Fragments;
+package br.com.livroandroid.trainingmockup.Activities;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,39 +15,31 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+
 import br.com.livroandroid.trainingmockup.Entities.Market;
 import br.com.livroandroid.trainingmockup.R;
 
-
-public class MarketFragment extends Fragment {
+public class MarketActivity extends AppCompatActivity {
 
     private String title;
     private DatabaseReference mDatabase;
     private TextView tvTitle, tvLocation;
     private ImageView firstImage, secondImage;
 
-    public MarketFragment() {
-
-    }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments() != null){
-            title = getArguments().getString("Title");
-        }
-    }
+        setContentView(R.layout.activity_market);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_market, container, false);
+        Bundle b = new Bundle();
+        b = getIntent().getExtras();
+        title = b.getString("Title");
 
-        tvTitle = view.findViewById(R.id.tvTitleMarket);
-        tvLocation = view.findViewById(R.id.tvLocationMarket);
-        firstImage = view.findViewById(R.id.imageViewFisrt);
-        secondImage = view.findViewById(R.id.imageViewSecond);
+        tvTitle = findViewById(R.id.tvTitleMarket);
+        tvLocation = findViewById(R.id.tvLocationMarket);
+        firstImage = findViewById(R.id.imageViewFisrt);
+        secondImage = findViewById(R.id.imageViewSecond);
 
         mDatabase = FirebaseDatabase.getInstance().getReference().child("markets");
 
@@ -63,13 +53,13 @@ public class MarketFragment extends Fragment {
                     tvTitle.setText(mkt.getTitle());
                     tvLocation.setText(mkt.getAdress());
 
-                    Picasso.with(getContext())
+                    Picasso.with(getApplicationContext())
                             .load(mkt.getUrlFirstImage())
                             .fit()
                             .centerCrop()
                             .into(firstImage);
 
-                    Picasso.with(getContext())
+                    Picasso.with(getApplicationContext())
                             .load(mkt.getUrlSecondImage())
                             .fit()
                             .centerCrop()
@@ -79,12 +69,8 @@ public class MarketFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(getContext(),"not found !",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"not found !",Toast.LENGTH_SHORT).show();
             }
         });
-
-
-        return view;
     }
-
 }

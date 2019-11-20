@@ -1,5 +1,6 @@
 package br.com.livroandroid.trainingmockup.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import br.com.livroandroid.trainingmockup.Activities.MarketActivity;
 import br.com.livroandroid.trainingmockup.Entities.Market;
 import br.com.livroandroid.trainingmockup.R;
 
@@ -138,16 +141,10 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
         mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                // Toast.makeText(getContext(),"Clicked " + m.getTitle(),Toast.LENGTH_SHORT).show();
-                Bundle bundle = new Bundle();
-                bundle.putString("Title",marker.getTitle());
-                MarketFragment mf = new MarketFragment();
-                mf.setArguments(bundle);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container,mf);
-                fragmentTransaction.commit();
 
+                Intent intent = new Intent(getActivity(), MarketActivity.class);
+                intent.putExtra("Title",marker.getTitle());
+                startActivity(intent);
 
             }
         });

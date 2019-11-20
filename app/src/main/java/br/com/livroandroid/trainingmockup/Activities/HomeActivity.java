@@ -85,7 +85,6 @@ public class HomeActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottomNav);
 
-
         LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -154,7 +153,7 @@ public class HomeActivity extends AppCompatActivity {
         List<Address> addresses;
         try{
             addresses = geocoder.getFromLocation(lat,lon,10);
-            if(addresses.size()>0){
+            if(addresses.size() > 0){
                 for (Address adr:addresses){
                     if (adr.getLocality() != null && adr.getLocality().length() > 0){
                         cityName = adr.getLocality();

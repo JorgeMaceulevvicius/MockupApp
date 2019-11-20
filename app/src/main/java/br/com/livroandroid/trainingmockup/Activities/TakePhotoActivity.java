@@ -12,6 +12,7 @@ import br.com.livroandroid.trainingmockup.R;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -209,4 +210,5 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
         }
         return temperature;
     }
+
 }
