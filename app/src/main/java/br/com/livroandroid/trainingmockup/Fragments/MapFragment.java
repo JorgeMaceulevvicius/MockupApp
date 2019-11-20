@@ -1,24 +1,17 @@
 package br.com.livroandroid.trainingmockup.Fragments;
 
-
-import android.graphics.Bitmap;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -28,23 +21,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import androidx.fragment.app.FragmentActivity;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import br.com.livroandroid.trainingmockup.Entities.Card;
 import br.com.livroandroid.trainingmockup.Entities.Market;
 import br.com.livroandroid.trainingmockup.R;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class MapFragment extends Fragment implements OnMapReadyCallback{
 
+public class MapFragment extends Fragment implements OnMapReadyCallback{
 
     private DatabaseReference mDatabase;
     GoogleMap mGoogleMap;
@@ -56,7 +41,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
     CameraPosition startLocation;
 
     public MapFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -68,14 +53,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             title = getArguments().getString("title");
             address = getArguments().getString("address");
 
-           // Toast.makeText(getContext(),latitude+"  +  "+longitude,Toast.LENGTH_SHORT).show();
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         mView = inflater.inflate(R.layout.fragment_map, container, false);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("markets");
 
@@ -135,7 +119,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
                                     mGoogleMap.addMarker(new MarkerOptions().position(location).title(m.getTitle())).setSnippet(m.getAdress());
                                 }
 
-
                             }else {
                                 mGoogleMap.clear();
                             }
@@ -169,8 +152,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback{
             }
         });
 
-
     }
-
 
 }

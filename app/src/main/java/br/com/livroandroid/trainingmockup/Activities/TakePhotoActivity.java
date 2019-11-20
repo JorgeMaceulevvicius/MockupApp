@@ -66,14 +66,12 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
 
         city = b.getString("cityLocation");
 
-
         mStorageRef = FirebaseStorage.getInstance().getReference("uploads");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("uploads");
 
         imageButtonClose = findViewById(R.id.imageButtonClose);
         imageView = findViewById(R.id.imageView_add_temperature);
         btn_add_temp = findViewById(R.id.btn_add_temperature);
-       // progresBar_add = findViewById(R.id.progressBar_add);
 
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent,CAMERA_REQUEST_CODE);
@@ -81,8 +79,6 @@ public class TakePhotoActivity extends AppCompatActivity implements SigleChoiceD
         btn_add_temp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-               // uploadImage();
-              // finish();
 
                 singgleChoiceDialog.setCancelable(false);
                 singgleChoiceDialog.show(getSupportFragmentManager(),"Dialog");

@@ -2,7 +2,6 @@ package br.com.livroandroid.trainingmockup.Connection;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import androidx.annotation.NonNull;
 
 public class FirebaseConnection {

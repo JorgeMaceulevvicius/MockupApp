@@ -5,10 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
-
 import android.Manifest;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -262,6 +259,5 @@ public class MainActivity extends AppCompatActivity {
             updateUI(user);
         }
     }
-
 
 }

@@ -15,7 +15,6 @@ import java.net.URL;
 
 public class Weather extends AsyncTask<String,Void,String> {
 
-
     @Override
     protected String doInBackground(String... address) {
 
@@ -46,6 +45,5 @@ public class Weather extends AsyncTask<String,Void,String> {
 
         return null;
     }
-
 
 }

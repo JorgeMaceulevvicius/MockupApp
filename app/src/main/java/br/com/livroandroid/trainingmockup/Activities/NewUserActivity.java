@@ -56,20 +56,20 @@ public class NewUserActivity extends AppCompatActivity {
 
                     progressBar.setVisibility(View.VISIBLE);
                     firebaseAuth.createUserWithEmailAndPassword(email,password)
-                            .addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if(task.isSuccessful()){
-                                        Toast.makeText(NewUserActivity.this,"User Registred !",Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
-                                        startActivity(intent);
-                                        finish();
-                                    }else {
-                                        progressBar.setVisibility(View.INVISIBLE);
-                                        Toast.makeText(NewUserActivity.this,"Error !",Toast.LENGTH_LONG).show();
-                                    }
+                        .addOnCompleteListener(NewUserActivity.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(NewUserActivity.this,"User Registred !",Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(getApplicationContext(),HomeActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }else {
+                                    progressBar.setVisibility(View.INVISIBLE);
+                                    Toast.makeText(NewUserActivity.this,"Error !",Toast.LENGTH_LONG).show();
                                 }
-                            });
+                            }
+                        });
                 }
 
             }

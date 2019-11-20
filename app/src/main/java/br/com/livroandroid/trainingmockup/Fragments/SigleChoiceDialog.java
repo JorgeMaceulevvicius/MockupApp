@@ -18,7 +18,6 @@ public class SigleChoiceDialog extends DialogFragment {
 
     int position = 0;
 
-
     public interface SingleChoiceListener{
         void onPositiveButtonClicked(String temp,int position);
         void onNegativeBuuttonClicked();
