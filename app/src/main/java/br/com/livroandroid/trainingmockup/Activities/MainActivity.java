@@ -106,8 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(mAuth.getCurrentUser() != null){
 
-            FirebaseUser user = mAuth.getCurrentUser();
-           goToHome();
+            goToHome();
 
         }
 
