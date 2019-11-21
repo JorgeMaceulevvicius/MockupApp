@@ -2,9 +2,13 @@ package br.com.livroandroid.trainingmockup.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -12,6 +16,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +39,10 @@ import br.com.livroandroid.trainingmockup.Fragments.PhotoFragment;
 import br.com.livroandroid.trainingmockup.R;
 
 public class HomeActivity extends AppCompatActivity {
+
+    private Dialog mDialog;
+    public AlertDialog.Builder dialog;
+
 
     private EditText search;
     private Button btn_search;
@@ -58,15 +67,17 @@ public class HomeActivity extends AppCompatActivity {
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
-
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
             }
         }
-        Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
-        city = cityLocation(location.getLatitude(),location.getLongitude());
-
+        try {
+            Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            city = cityLocation(location.getLatitude(), location.getLongitude());
+        }catch(Exception e){
+            checkGPSisOnOrNot();
+        }
         search = (EditText) findViewById(R.id.edtSearch);
         btn_search = findViewById(R.id.buttonSearch);
 
@@ -79,20 +90,20 @@ public class HomeActivity extends AppCompatActivity {
                 q.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                                Market mkt = snapshot.getValue(Market.class);
+                        for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                            Market mkt = snapshot.getValue(Market.class);
 
-                                Bundle bd = new Bundle();
-                                bd.putDouble("Latitude",mkt.getLatitude());
-                                bd.putDouble("Longitude",mkt.getLongitude());
-                                bd.putString("title",mkt.getTitle());
-                                bd.putString("address", mkt.getAdress());
-                                Fragment fragment = new MapFragment();
-                                fragment.setArguments(bd);
-                                getSupportFragmentManager()
-                                        .beginTransaction()
-                                        .replace(R.id.fragment_container, fragment).commit();
-                            }
+                            Bundle bd = new Bundle();
+                            bd.putDouble("Latitude",mkt.getLatitude());
+                            bd.putDouble("Longitude",mkt.getLongitude());
+                            bd.putString("title",mkt.getTitle());
+                            bd.putString("address", mkt.getAdress());
+                            Fragment fragment = new MapFragment();
+                            fragment.setArguments(bd);
+                            getSupportFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragment_container, fragment).commit();
+                        }
 
                     }
 
@@ -153,10 +164,57 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         selectedFragment).commit();
-            return true;
+                return true;
             }
         });
 
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        checkGPSisOnOrNot();
+    }
+
+    private void checkGPSisOnOrNot(){
+
+        if(mDialog == null || !mDialog.isShowing()){
+            LocationManager lm = (LocationManager)this.getSystemService(this.LOCATION_SERVICE);
+            boolean gps_enabled = false;
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch(Exception ex) {}
+
+            if(!gps_enabled ) {
+                // notify user
+                dialog = new AlertDialog.Builder(this);
+                dialog.setMessage(R.string.msg_enable_GPS);
+                dialog.setPositiveButton(R.string.open_location_settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                        Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+//                        mDialog.dismiss();
+                        finish();
+                    }
+                });
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+
+                    }
+                });
+
+                mDialog = dialog.show();
+            }
+        }
     }
 
     private String cityLocation(double lat, double lon) {

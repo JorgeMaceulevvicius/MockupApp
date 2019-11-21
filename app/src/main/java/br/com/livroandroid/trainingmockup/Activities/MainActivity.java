@@ -76,8 +76,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        checkGPSisOnOrNot();
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
         }
@@ -226,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,HomeActivity.class);
         startActivity(intent);
 
-            }
+    }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
@@ -269,36 +267,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void checkGPSisOnOrNot(){
 
-        LocationManager lm = (LocationManager)this.getSystemService(this.LOCATION_SERVICE);
-        boolean gps_enabled = false;
-        try {
-            gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
-        } catch(Exception ex) {}
-
-        if(!gps_enabled ) {
-            // notify user
-            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-            dialog.setMessage(R.string.msg_enable_GPS);
-            dialog.setPositiveButton(R.string.open_location_settings, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    // TODO Auto-generated method stub
-                    Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(myIntent);
-                }
-            });
-            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                    finish();
-                }
-            });
-            dialog.show();
-
-        }
-
-    }
 
 }
