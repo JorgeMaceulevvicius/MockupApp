@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import br.com.livroandroid.trainingmockup.Connection.FirebaseConnection;
 import br.com.livroandroid.trainingmockup.R;
 import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,6 +35,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Dialog mDialog;
+    public AlertDialog.Builder dialog;
 
     static final int GOOGLE_SING = 123;
     private FirebaseAuth mAuth;
@@ -75,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        checkGPSisOnOrNot();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestPermissions(LOCATION_PERMS, LOCATION_REQUEST);
@@ -224,7 +230,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this,HomeActivity.class);
         startActivity(intent);
 
-    }
+            }
 
     private void updateUI(FirebaseUser user) {
         if (user != null) {
@@ -267,6 +273,51 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        checkGPSisOnOrNot();
+    }
 
+    private void checkGPSisOnOrNot(){
+
+        if(mDialog == null || !mDialog.isShowing()){
+            LocationManager lm = (LocationManager)this.getSystemService(this.LOCATION_SERVICE);
+            boolean gps_enabled = false;
+            try {
+                gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch(Exception ex) {}
+
+            if(!gps_enabled ) {
+                // notify user
+                dialog = new AlertDialog.Builder(this);
+                dialog.setMessage(R.string.msg_enable_GPS);
+                dialog.setPositiveButton(R.string.open_location_settings, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        // TODO Auto-generated method stub
+                        Intent myIntent = new Intent( Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                });
+                dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+//                        mDialog.dismiss();
+                        finish();
+                    }
+                });
+
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+
+                    }
+                });
+
+                mDialog = dialog.show();
+            }
+        }
+    }
 
 }
